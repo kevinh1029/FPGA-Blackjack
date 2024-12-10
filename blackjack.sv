@@ -7,6 +7,6 @@ module blackjack(input logic CLOCK_50, input logic [3:0] KEY,
                 output logic [7:0] VGA_X, output logic [6:0] VGA_Y,
                 output logic [2:0] VGA_COLOUR, output logic VGA_PLOT);
 logic prevhit;
-
+ 
 
 endmodule: blackjack
