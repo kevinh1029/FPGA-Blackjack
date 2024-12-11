@@ -1,11 +1,11 @@
 `timescale 1ps / 1ps
 
 module lfsr_tb;
-    logic clk;
+    logic clk = 0;
     logic rst_n;
     logic [31:0] randnum;
 
-    lfsr uut (
+    lfsr dut (
         .clk(clk),
         .rst_n(rst_n),
         .randnum(randnum)
@@ -14,9 +14,7 @@ module lfsr_tb;
     always #5 clk = ~clk; 
 
     initial begin
-        clk = 0;
         rst_n = 0;
-
         #10;
         rst_n = 1;
 
