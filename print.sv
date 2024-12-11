@@ -57,6 +57,7 @@ module print(input logic clk, input logic rst_n, input logic write,
                 if (write) begin
                     if (init) begin
                         statenext = INIT;
+                        vga_colournext = 3'd2;
                         vga_plotnext = 1'd1;
                     end
                     else begin
@@ -77,14 +78,14 @@ module print(input logic clk, input logic rst_n, input logic write,
                 vga_colournext = 3'd2;
                 vga_plotnext = 1'd1;
                 vga_xnext = vga_x + 8'd1;
-                if (vga_x == 8'd160 && vga_y == 7'd120) begin
+                if (vga_x == 8'd159 && vga_y == 7'd119) begin
                     vga_plotnext = 1'd0;
                     vga_xnext = 8'd0;
                     vga_ynext = 7'd0;
                     vga_colournext = 3'd0;
                     statenext = IDLE;
                 end
-                else if (vga_x == 8'd160) begin
+                else if (vga_x == 8'd159) begin
                     vga_ynext = vga_y + 7'd1;
                     vga_xnext = 8'd0;
                 end
@@ -99,7 +100,7 @@ module print(input logic clk, input logic rst_n, input logic write,
                 vga_colournext = pix_q;
 
                 vga_xnext = vga_x + 8'd1;
-                if (vga_x == orig_x + 8'd11 && vga_y == orig_y + 7'd16) begin
+                if (vga_x == orig_x + 8'd10 && vga_y == orig_y + 7'd15) begin
                     vga_plotnext = 1'd0;
                     vga_xnext = 8'd0;
                     vga_ynext = 7'd0;
@@ -109,7 +110,7 @@ module print(input logic clk, input logic rst_n, input logic write,
                     cardscannext = 8'd0;
                     statenext = IDLE;
                 end
-                else if (vga_x == orig_x + 8'd11) begin
+                else if (vga_x == orig_x + 8'd10) begin
                     vga_ynext = vga_y + 7'd1;
                     vga_xnext = orig_x;
                 end
