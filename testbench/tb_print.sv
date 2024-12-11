@@ -29,11 +29,14 @@ module print_tb;
 
     always #5 clk = ~clk;
 
-    task reset_dut();
+    task init_screen();
         begin
-            rst_n = 0;
-            #20;
-            rst_n = 1;
+            @(negedge clk);
+            write = 1;
+            init = 1;
+            @(negedge clk);
+            write = 0;
+            wait(!waitrequest);
         end
     endtask
 
@@ -50,28 +53,18 @@ module print_tb;
         end
     endtask
 
-    task init_screen();
-        begin
-            @(negedge clk);
-            write = 1;
-            init = 1;
-            @(negedge clk);
-            write = 0;
-            wait(!waitrequest);
-        end
-    endtask
-
     initial begin
         write = 0;
         init = 0;
         card = 6'd0;
         orig = 15'd0;
-
+        $readmemb("../../pix_mem/pix.txt", dut.pix.altsyncram_component.m_default.altsyncram_inst.mem_data);
         rst_n = 0;
         #10;
         rst_n = 1;
 
         init_screen();
+        write_card(card, orig);
 
         $stop;
     end
