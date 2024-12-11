@@ -1,4 +1,4 @@
-module print(input logic clk, input logic rst_n, input logic write, 
+module print(input logic clk, input logic rst_n, input logic writeprint, 
             input logic init, input logic [5:0] card, 
             input logic [14:0] orig, output logic waitrequest, 
             output logic [7:0] vga_x, output logic [6:0] vga_y, 
@@ -54,7 +54,7 @@ module print(input logic clk, input logic rst_n, input logic write,
 
         unique case (state)
             IDLE: begin
-                if (write) begin
+                if (writeprint) begin
                     if (init) begin
                         statenext = INIT;
                         vga_colournext = 3'd2;
