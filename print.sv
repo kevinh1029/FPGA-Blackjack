@@ -95,7 +95,7 @@ module print(input logic clk, input logic rst_n, input logic write,
                 waitrequest = 1'd1;
 
                 cardscannext = cardscan + 8'd1;
-                pix_addr = ({12'd0, cardbuf[1:0]} * 14'd13 + {10'd0, cardbuf[5:2]}) * 14'd176 + {6'd0, cardscan};
+                pix_addr = (cardbuf[5:2] == 4'd14) ? 14'd9152 : ({12'd0, cardbuf[1:0]} * 14'd13 + {10'd0, cardbuf[5:2]}) * 14'd176 + {6'd0, cardscan};
                 vga_plotnext = 1'd1;
                 vga_colournext = pix_q;
 
