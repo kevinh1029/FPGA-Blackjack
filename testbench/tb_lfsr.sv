@@ -23,7 +23,7 @@ module lfsr_tb;
     end
 
     always @(posedge clk) begin
-        $display($time, " clk=%b, rst_n=%b, randnum=%h", clk, rst_n, randnum);
+        $display($time, " clk=%b, rst_n=%b, randnum=%h", clk, rst_n, randnum); // Display the current random number at each clock cycle to compare with the python implementation
     end
 
 endmodule: lfsr_tb
