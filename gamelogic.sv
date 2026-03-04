@@ -232,12 +232,11 @@ module gamelogic(input logic clk, input logic rst_n,
     end
 
     // Swap current deckindex card with random index card
-    always_ff @( posedge clk ) begin
-       if (state == SHUFFLE) begin
-            deck[deckindex] <= deck[randindex];
-            deck[randindex] <= deck[deckindex];
-       end 
-    end
+    // always_ff @( posedge clk ) begin
+    //    if (state == SHUFFLE) begin
+            
+    //    end 
+    // end
 
     always_ff @( posedge clk ) begin
         if (!rst_n) begin
@@ -251,6 +250,11 @@ module gamelogic(input logic clk, input logic rst_n,
             dealeraces <= 4'd0;
             msg <= 2'd0;
             carddisplayindex <= 4'd0;
+        end
+        // Swap current deckindex card with random index card
+        else if (state == SHUFFLE) begin
+            deck[deckindex] <= deck[randindex];
+            deck[randindex] <= deck[deckindex];
         end
         else begin
             state <= statenext;
