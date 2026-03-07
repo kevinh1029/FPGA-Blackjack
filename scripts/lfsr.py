@@ -14,13 +14,13 @@ def lfsr(seed, taps, num_cycles):
 
     return sequence
 
+if __name__ == "__main__":
+    seed = 0xFFFFFFF1 
+    taps = [31, 21, 1, 0] 
+    num_cycles = 1000 
 
-seed = 0xFFFFFFF1 
-taps = [31, 21, 1, 0] 
-num_cycles = 1000 
+    lfsr_sequence = lfsr(seed, taps, num_cycles)
 
-lfsr_sequence = lfsr(seed, taps, num_cycles)
-
-print("Generated LFSR sequence:")
-for i, value in enumerate(lfsr_sequence):
-    print(f"Cycle {i}: 0x{value:08X}")
+    print("Generated LFSR sequence:")
+    for i, value in enumerate(lfsr_sequence):
+        print(f"Cycle {i}: 0x{value:08X}")
