@@ -32,6 +32,8 @@ module print_tb;
     logic [9:0] VGA_G_10;
     logic [9:0] VGA_B_10;  
 
+    integer rank, suit;
+
     //RGB signals are represented with 10 bits inside the adapter but the DE1-SoC DAC has only 8 bits of precision, so take the upper 8 bits for output
     assign VGA_R = VGA_R_10[9:2];
     assign VGA_G = VGA_G_10[9:2];
@@ -41,6 +43,11 @@ module print_tb;
     assign VGA_Y = vga_y;
     assign VGA_PLOT = vga_plot;
     assign VGA_COLOUR = vga_colour;
+
+    logic [7:0] DEBUG_ORIG_X;
+    logic [6:0] DEBUG_ORIG_Y;
+    assign DEBUG_ORIG_X = orig[14:7];
+    assign DEBUG_ORIG_Y = orig[6:0];
 
     vga_adapter #(.RESOLUTION("160x120")) vga (
         .resetn(rst_n),
@@ -107,23 +114,21 @@ module print_tb;
         #10;
         rst_n = 1;
 
-        //init_screen();
-        card_id = 6'b1110_00; //Back of card (rank 14, suit 0)
-        orig = 15'b00000010_0000010;
-        write_card(card_id, orig);
-        card_id = 6'b0001_00; // Ace of Spades (rank 0, suit 0)
-        orig = orig + 15'b00010000_0000000; 
-        write_card(card_id, orig);
-        card_id = 6'b0001_01;
-        orig = orig + 15'b00010000_0000000;
-        write_card(card_id, orig);
-        card_id = 6'b0001_10;
-        orig = orig + 15'b00010000_0000000;
-        write_card(card_id, orig);
-        card_id = 6'b0001_11;
-        orig = orig + 15'b00010000_0000000;
-        write_card(card_id, orig);
+        orig = 15'b00000000_0000000;
 
+        for (rank = 1; rank < 14; rank++) begin
+            for (suit = 0; suit < 4; suit++) begin
+                card_id = {rank[3:0], suit[1:0]};
+                write_card(card_id, orig);
+                orig = orig + 15'b00000000_0010000;
+            end
+            orig = {orig[14:7], 7'b0} + 15'b00001011_0000000; //
+        end
+
+        card_id = 6'b1110_00; //Back of card (rank 14, suit 0)
+        orig = 15'b00000000_1000000;
+        write_card(card_id, orig);
+    
         $stop;
     end
 
